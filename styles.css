@@ -1,0 +1,905 @@
+/* ==========================================================================
+   Duluth Baduk Club — stylesheet
+
+   Woodblock-print theme: Hokusai's Great Wave standing in for Lake Superior,
+   over warm goban wood and sumi ink. The accent motifs shift down the page
+   from Japan to Korea to China; the base palette and type stay constant.
+
+   Order (matches the HTML top to bottom):
+      1.  Design tokens
+      2.  Base
+      3.  Layout helpers (.container .section .button .eyebrow .stone-list ...)
+      4.  Header + nav
+      5.  Hero + the wave
+      6.  Proverb band
+      7.  Zone dividers + shared zone plumbing
+      8.  About
+      9.  Meetups  (maple leaves)
+     10.  Location + map
+     11.  "New to Go" box
+     12.  Coming later  (mountains, moon, clouds)
+     13.  Contact  (the seal)
+     14.  Footer
+     15.  Decorative bits reused in a few places
+     16.  Responsive + reduced motion + keyframes
+   ========================================================================== */
+
+
+/* 1. DESIGN TOKENS ---------------------------------------------------------- */
+/* Change a value here and it updates everywhere it's used. */
+:root {
+
+  /* --- the constant palette (used on every screen) --- */
+  --sumi:        #1b1b1a;   /* brush-ink black: text and go stones */
+  --paper:       #f3ebd9;   /* warm washi paper: page background */
+  --paper-panel: #ece0c4;   /* a slightly deeper paper for raised panels */
+  --wood:        #d8a441;   /* goban wood: warm accent bands */
+  --wood-line:   #9c6b1f;   /* darker wood: borders and board-grid lines */
+  --wave-deep:   #16324f;   /* Prussian blue: deep Lake Superior water */
+  --wave-mid:    #2f6f96;   /* mid blue: the middle wave layer */
+  --wave-pale:   #a9cddd;   /* pale blue: the far wave and the ridge */
+  --foam:        #f8fbfb;   /* foam / stone white */
+  --seal:        #b5322b;   /* vermilion: the "stamp" red, links, primary button */
+  --seal-dark:   #8c2620;   /* darker red for hover */
+  --blossom:     #f2c4d1;   /* cherry-blossom pink (Japan) */
+  --muted:       #6b6350;   /* quiet grey-brown for fine print */
+
+  /* --- accent colours introduced further down the page --- */
+  --danpung:  #c0592c;  /* Korea: autumn-maple red-orange (the drifting leaves) */
+  --gold:     #c9a227;  /* China: cloud-scroll gold (the divider ribbon) */
+  --ink-hill: #4c626b;  /* China: ink-wash mountain grey-blue */
+
+  /* --- spacing scale --- one scale keeps the vertical rhythm consistent */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+
+  /* --- type --- */
+  /* Display face is the brushy one; body face is a woodblock-ish serif.
+     Both fall back to Georgia if Google Fonts doesn't load. */
+  --font-display: "Yuji Syuku", Georgia, "Times New Roman", serif;
+  --font-body: "Shippori Mincho", Georgia, "Times New Roman", serif;
+
+  /* --- other repeated values --- */
+  --max-width: 940px;
+  --radius: 6px;
+  --shadow: 0 10px 30px rgba(22, 50, 79, 0.15);
+}
+
+
+/* 2. BASE ---------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--sumi);
+  background: var(--paper);
+  line-height: 1.75;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 400;      /* the display face only comes in one weight */
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+  text-wrap: balance;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: var(--space-sm);
+}
+
+h3 {
+  font-size: 1.2rem;
+  margin-bottom: var(--space-xs);
+}
+
+p {
+  margin-bottom: var(--space-sm);
+}
+
+a {
+  color: var(--seal);
+}
+
+a:hover {
+  color: var(--seal-dark);
+}
+
+/* A clear keyboard-focus ring for anyone navigating without a mouse. */
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--seal);
+  outline-offset: 2px;
+}
+
+img,
+svg,
+iframe {
+  display: block;
+  max-width: 100%;
+}
+
+
+/* 3. LAYOUT HELPERS ---------------------------------------------------------- */
+/* Reused class names. When you see these in index.html, this is what they do. */
+
+/* Centres content and stops it getting too wide. */
+.container {
+  width: 90%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+/* Every main band of the page is a .section, for consistent top/bottom spacing. */
+.section {
+  padding-top: var(--space-lg);
+  padding-bottom: var(--space-lg);
+}
+
+/* .section-wood = the same, but on a warm goban-wood background with a faint
+   board grid drawn over it (two sets of thin lines, 44px apart). */
+.section-wood {
+  background-color: var(--wood);
+  background-image:
+    repeating-linear-gradient(to right,  transparent 0 43px, rgba(27, 27, 26, 0.10) 43px 44px),
+    repeating-linear-gradient(to bottom, transparent 0 43px, rgba(27, 27, 26, 0.10) 43px 44px);
+  border-top: 2px solid var(--wood-line);
+  border-bottom: 2px solid var(--wood-line);
+}
+
+/* Small uppercase label above a heading. On the post-hero zones it doubles as
+   the "which country are we in now" marker. */
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.8rem;
+  color: var(--seal);
+  margin-bottom: var(--space-xs);
+}
+
+/* Intro paragraph under a section heading — a little bigger, a little muted. */
+.section-intro {
+  font-size: 1.1rem;
+  max-width: 42rem;
+  margin-bottom: var(--space-md);
+}
+
+/* Quiet text for fine print. */
+.muted {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* Buttons. .button is the shared shape; the modifiers set the colours. */
+.button {
+  display: inline-block;
+  padding: 0.8rem 1.7rem;
+  border: 2px solid var(--sumi);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.button-primary {
+  background: var(--seal);
+  border-color: var(--seal);
+  color: var(--foam);
+}
+
+.button-primary:hover {
+  background: var(--seal-dark);
+  border-color: var(--seal-dark);
+  color: var(--foam);
+}
+
+.button-outline {
+  background: transparent;
+  color: var(--sumi);
+}
+
+.button-outline:hover {
+  background: var(--sumi);
+  color: var(--paper);
+}
+
+/* A row of buttons that wraps on small screens. */
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+/* A bulleted list whose markers are little white "clamshell" go stones.
+   Two stacked radial-gradients do the 3-D shading, both lit from the same
+   point up and to the left: a tight glint on top, then a soft sphere-shade
+   running from near-white down to a warm grey. The box-shadow adds a dark
+   lower-right rim (roundness), a faint upper-left rim light, and a small
+   drop shadow (lift off the page). */
+.stone-list {
+  list-style: none;
+}
+
+.stone-list li {
+  position: relative;
+  padding-left: 2rem;
+  margin-bottom: var(--space-xs);
+}
+
+.stone-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.4em;
+  width: 1.05rem;
+  height: 1.05rem;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0) 22%),
+    radial-gradient(circle at 42% 38%, #fbf8f1 0%, #eae2d0 48%, #c8bfa8 100%);
+  box-shadow:
+    inset -1.5px -2px 3px rgba(90, 75, 50, 0.35),
+    inset 1px 1px 1.5px rgba(255, 255, 255, 0.9),
+    0 2px 3px rgba(0, 0, 0, 0.22);
+}
+
+
+/* 4. HEADER + NAV ---------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--paper);
+  border-bottom: 2px solid var(--wood-line);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-sm);
+  padding-bottom: var(--space-sm);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  text-decoration: none;
+  color: var(--sumi);
+}
+
+.brand-name {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  list-style: none;
+}
+
+.nav-menu a {
+  color: var(--sumi);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.nav-menu a:hover {
+  color: var(--seal);
+}
+
+/* The Discord link in the nav gets a red outline so it reads as a button. */
+.nav-discord {
+  border: 2px solid var(--seal);
+  border-radius: var(--radius);
+  padding: 0.35rem 0.9rem;
+  color: var(--seal) !important;
+  font-weight: 700;
+}
+
+.nav-discord:hover {
+  background: var(--seal);
+  color: var(--foam) !important;
+}
+
+/* The "Menu" button is hidden on desktop; the @media block at the bottom
+   shows it on narrow screens. */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 2px solid var(--sumi);
+  border-radius: var(--radius);
+  padding: 0.4rem 0.8rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+
+/* 5. HERO + THE WAVE ---------------------------------------------------------- */
+.hero {
+  position: relative;
+  overflow: hidden;                 /* keep the wave + blossoms inside the box */
+  background: linear-gradient(to bottom, #fbf5e6 0%, var(--paper) 55%);
+  border-bottom: 2px solid var(--wood-line);
+}
+
+/* The decorative layer sits behind the text and ignores pointer events. */
+.hero-art {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* The red woodblock sun, up and to the right. */
+.sun {
+  position: absolute;
+  top: 12%;
+  right: 12%;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: var(--seal);
+  opacity: 0.9;
+}
+
+/* The wave illustration, pinned to the bottom and stretched full width. */
+.wave-scene {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 260px;
+}
+
+/* Fills for each layer of the wave (the paths carry these class names). */
+.wave-ridge { fill: var(--wave-pale); opacity: 0.55; }
+.wave-back  { fill: var(--wave-pale); }
+.wave-mid   { fill: var(--wave-mid); }
+.wave-front { fill: var(--wave-deep); }
+
+/* Foam flecks on the wave crest. Round CSS dots rather than SVG circles, so
+   they never squash into ovals when the window is resized. Positioned by % from
+   the left and a fixed number of px up from the bottom — the wave SVG keeps a
+   constant 260px height, so a fixed offset always lands on the crest. */
+.foam {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--foam);
+  opacity: 0.9;
+}
+.foam-1 { left: 17%; bottom: 46px; width: 12px; height: 12px; }
+.foam-2 { left: 19%; bottom: 35px; width: 7px;  height: 7px; }
+.foam-3 { left: 23%; bottom: 55px; width: 10px; height: 10px; }
+.foam-4 { left: 21%; bottom: 49px; width: 6px;  height: 6px; }
+.foam-5 { left: 39%; bottom: 25px; width: 10px; height: 10px; }
+.foam-6 { left: 42%; bottom: 19px; width: 6px;  height: 6px; }
+.foam-7 { left: 75%; bottom: 26px; width: 8px;  height: 8px; }
+.foam-8 { left: 78%; bottom: 21px; width: 5px;  height: 5px; }
+
+/* Soft mist sitting on the water along the bottom of the hero. */
+.mist {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 90px;
+  height: 120px;
+  background: linear-gradient(to bottom, rgba(248, 251, 251, 0) 0%, rgba(248, 251, 251, 0.75) 100%);
+}
+
+/* The hero text. position: relative lifts it above the .hero-art layer. */
+.hero-inner {
+  position: relative;
+  padding-top: var(--space-lg);
+  padding-bottom: 220px;            /* leave room for the wave underneath */
+}
+
+.hero-title {
+  font-size: 3.4rem;
+  margin-bottom: var(--space-sm);
+}
+
+.lede {
+  font-size: 1.3rem;
+  max-width: 40rem;
+  margin-bottom: var(--space-md);
+}
+
+.lede em {
+  font-style: normal;
+  color: var(--seal);
+}
+
+
+/* 6. PROVERB BAND ---------------------------------------------------------- */
+/* A sumi-ink band with a red seal feel — the "proverb of the day". */
+.proverb-band {
+  background: var(--sumi);
+  color: var(--paper);
+  border-bottom: 4px solid var(--seal);
+}
+
+.proverb-inner {
+  padding-top: var(--space-md);
+  padding-bottom: var(--space-md);
+  text-align: center;
+}
+
+.proverb-label {
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  font-size: 0.75rem;
+  color: var(--blossom);
+  margin-bottom: var(--space-xs);
+}
+
+.proverb-text {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  margin-bottom: var(--space-sm);
+}
+
+/* "Another one" button — quiet, just an underlined bit of text. */
+.proverb-next {
+  background: none;
+  border: none;
+  color: var(--blossom);
+  font: inherit;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+
+/* 7. CULTURAL-ZONE DIVIDERS + SHARED ZONE PLUMBING ----------------------- */
+
+/* A .divider is a thin ribbon between two cultural zones. The SVG inside it
+   carries a repeating pattern (defined in index.html): dancheong colours
+   going into Korea, gold cloud-scrolls going into China. Kept short on
+   purpose so it's a seam, not a billboard. */
+.divider {
+  line-height: 0;                   /* no stray gap under the inline SVG */
+  border-top: 2px solid var(--wood-line);
+  border-bottom: 2px solid var(--wood-line);
+}
+
+.divider-svg {
+  width: 100%;
+  height: 28px;
+  display: block;
+}
+
+/* The zone sections can carry an optional .zone-art layer (maple leaves,
+   mountains, a moon...). Same trick as the hero: the art is absolutely
+   positioned behind the content, and the content is lifted above it.
+   (.zone-japan has no art of its own yet — it's here so the rule set is
+   uniform and adding art later needs no extra plumbing.) */
+.zone-japan,
+.zone-korea,
+.zone-china {
+  position: relative;
+  overflow: hidden;
+}
+
+.zone-art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.zone-japan > .container,
+.zone-korea > .container,
+.zone-china > .container {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* 8. ABOUT ---------------------------------------------------------------- */
+/* Two columns on desktop: paragraphs left, quick-facts card right.
+   Collapses to one column on narrow screens (see @media). */
+.about-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--space-md);
+  align-items: start;
+}
+
+.about-text p:last-child {
+  margin-bottom: 0;
+}
+
+.about-text em {
+  font-style: normal;
+  color: var(--seal);
+}
+
+/* Quick facts is a <dl>; each term/detail pair is wrapped in a <div>. */
+.quick-facts {
+  background: var(--paper-panel);
+  border: 2px solid var(--wood-line);
+  border-radius: var(--radius);
+  padding: var(--space-md);
+}
+
+.quick-facts > div + div {
+  margin-top: var(--space-sm);
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--wood-line);
+}
+
+.quick-facts dt {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.quick-facts dd {
+  font-size: 1.05rem;
+}
+
+
+/* 9. MEETUPS ------------------------------------------------------------- */
+.next-meeting {
+  font-size: 1.15rem;
+  margin-bottom: var(--space-md);
+}
+
+/* Maple leaves drifting through the Meetups section. */
+.leaf {
+  position: absolute;
+  width: 22px;
+  fill: var(--danpung);
+  opacity: 0.75;
+}
+
+.leaf-1 { top: -6%; left: 14%; animation: leaf-fall 19s linear infinite; }
+.leaf-2 { top: -6%; left: 72%; width: 16px; animation: leaf-fall 25s linear infinite 7s; }
+
+
+/* 10. LOCATION + MAP ---------------------------------------------------------- */
+/* Address text on the left, embedded map on the right. */
+.location-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: var(--space-md);
+  align-items: stretch;
+}
+
+.address {
+  font-size: 1.1rem;
+  margin-bottom: var(--space-md);
+}
+
+/* The map needs an explicit height because its content is an <iframe>. */
+.map-frame {
+  min-height: 300px;
+  border: 2px solid var(--wood-line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.map-frame iframe {
+  width: 100%;
+  height: 100%;
+}
+
+
+/* 11. "NEW TO GO" BOX ------------------------------------------------------- */
+/* A raised card with a faint go-board grid, sitting on the wood section. */
+.new-to-go {
+  background-color: var(--paper);
+  background-image:
+    repeating-linear-gradient(to right,  transparent 0 31px, rgba(27, 27, 26, 0.06) 31px 32px),
+    repeating-linear-gradient(to bottom, transparent 0 31px, rgba(27, 27, 26, 0.06) 31px 32px);
+  border: 2px solid var(--sumi);
+  border-radius: var(--radius);
+  padding: var(--space-md);
+  box-shadow: var(--shadow);
+}
+
+/* A plain list of resource links with comfortable spacing. */
+.link-list {
+  margin: var(--space-sm) 0;
+  padding-left: 1.2rem;
+}
+
+.link-list li {
+  margin-bottom: var(--space-xs);
+}
+
+
+/* 12. COMING LATER  (China accents) ----------------------------------- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+}
+
+.card {
+  background: var(--paper);
+  border: 2px solid var(--wood-line);
+  border-radius: var(--radius);
+  padding: var(--space-md);
+}
+
+.card p:last-child {
+  margin-bottom: 0;
+}
+
+/* Ink-wash mountains behind this section — three layers, palest at the back.
+   This is the deliberate echo of the hero's three wave layers. Kept faint so
+   it's atmosphere, not a picture. */
+.mountains {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 60%;
+  opacity: 0.5;
+}
+
+.mtn-far  { fill: var(--ink-hill); opacity: 0.4; }
+.mtn-mid  { fill: var(--ink-hill); opacity: 0.7; }
+.mtn-near { fill: #33454d; }
+
+/* A pale moon, top-right — the third circle in the set (sun, taegeuk, moon). */
+.moon {
+  position: absolute;
+  top: 12%;
+  right: 10%;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: #e9e3d1;
+  opacity: 0.55;
+}
+
+/* Slow-drifting clouds. */
+.cloud {
+  position: absolute;
+  width: 90px;
+  fill: rgba(243, 235, 217, 0.55);
+}
+
+.cloud-1 { top: 22%; left: -20%; animation: cloud-drift 40s linear infinite; }
+.cloud-2 { top: 40%; left: -20%; width: 60px; animation: cloud-drift 55s linear infinite 12s; }
+
+
+/* 13. CONTACT  (the weiqi seal) --------------------------------------------- */
+.contact-inner {
+  max-width: 42rem;
+  text-align: center;
+}
+
+/* A large version of the brand seal — same object as the little 囲碁 stamp in
+   the header, scaled up, with a carved paper-coloured border. */
+.big-seal {
+  display: inline-block;
+  background: var(--seal);
+  color: var(--foam);
+  font-family: var(--font-body);
+  font-size: 2.2rem;
+  line-height: 1;
+  padding: 0.35em 0.4em;
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 3px var(--foam), inset 0 0 0 5px var(--seal);
+  transform: rotate(-6deg);
+  margin-bottom: var(--space-md);
+}
+
+.contact-inner .button {
+  margin-top: var(--space-xs);
+}
+
+
+/* 14. FOOTER ---------------------------------------------------------------- */
+.site-footer {
+  background: var(--sumi);
+  color: var(--paper);
+  padding-top: var(--space-md);
+  padding-bottom: var(--space-md);
+}
+
+.footer-inner {
+  text-align: center;
+}
+
+.footer-brand {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  margin-bottom: var(--space-sm);
+}
+
+.footer-nav {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.footer-nav a {
+  color: var(--paper);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.footer-nav a:hover {
+  text-decoration: underline;
+}
+
+.footer-fineprint {
+  color: #b6ad98;         /* a dimmed version of the paper colour */
+  font-size: 0.85rem;
+  margin-bottom: 0;
+}
+
+
+/* 15. DECORATIVE BITS (reused in a few places) --------------------------- */
+
+/* The red "seal stamp" with 囲碁 inside it — next to the club name in the
+   header and footer. */
+.brand-seal {
+  display: inline-block;
+  background: var(--seal);
+  color: var(--foam);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  line-height: 1;
+  padding: 0.35em 0.4em;
+  border-radius: 4px;
+  transform: rotate(-4deg);   /* a slightly crooked hand-stamped look */
+}
+
+/* Cherry blossoms drifting in the hero. Same flower, three sizes/positions.
+   The gentle fall is defined in @keyframes at the bottom. */
+.blossom {
+  position: absolute;
+  fill: var(--blossom);
+  opacity: 0.9;
+}
+
+.blossom-1 { width: 26px; top: 8%;  left: 12%; animation: blossom-fall 13s linear infinite; }
+.blossom-2 { width: 18px; top: 4%;  left: 42%; animation: blossom-fall 17s linear infinite 3s; }
+.blossom-3 { width: 22px; top: 14%; left: 68%; animation: blossom-fall 15s linear infinite 6s; }
+
+/* A row of little wave scallops along the bottom edge of the hero.
+   It's one small SVG (a single scallop) tiled horizontally by mask-repeat.
+   The SVG is spelled out here so it's easy to tweak: one arc, deep-blue fill. */
+.scallop-trim {
+  position: relative;
+  height: 16px;
+  background-color: var(--wave-deep);
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='16'%3E%3Cpath d='M0 16 A16 16 0 0 1 32 16 Z' fill='%23000'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='16'%3E%3Cpath d='M0 16 A16 16 0 0 1 32 16 Z' fill='%23000'/%3E%3C/svg%3E");
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+}
+
+
+/* 16. RESPONSIVE + REDUCED MOTION + KEYFRAMES -------------------------- */
+/* One breakpoint. Below 720px the layout goes single-column and the nav
+   collapses behind the "Menu" button. */
+/* Nav breakpoint. The full horizontal menu (five items, one of them the wide
+   "Join our Discord" pill) stops fitting well before phone width, so it folds
+   into the Menu button at 920px rather than waiting for 720px. */
+@media (max-width: 920px) {
+
+  .nav-toggle {
+    display: block;
+  }
+
+  /* The menu becomes a dropdown card that script.js opens/closes via "is-open". */
+  .site-nav {
+    position: relative;
+  }
+
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 12rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    background: var(--paper);
+    border: 2px solid var(--wood-line);
+    border-radius: var(--radius);
+    padding: var(--space-xs) 0;
+  }
+
+  .nav-menu.is-open {
+    display: flex;
+  }
+
+  .nav-menu li {
+    text-align: center;
+    padding: var(--space-xs) 0;
+  }
+
+  .nav-discord {
+    display: inline-block;
+    margin: var(--space-xs) auto 0;
+  }
+}
+
+/* Layout + type breakpoint (phones, small tablets). */
+@media (max-width: 720px) {
+
+  h2 { font-size: 1.7rem; }
+  .hero-title { font-size: 2.4rem; }
+  .lede { font-size: 1.15rem; }
+
+  /* On a phone the sun would sit behind the title; shrink it and tuck it
+     up into the top corner so the heading stays readable. */
+  .sun {
+    width: 78px;
+    height: 78px;
+    top: 3%;
+    right: 5%;
+  }
+
+  .big-seal { font-size: 1.8rem; }
+  .moon { width: 64px; height: 64px; }
+
+  /* stack the two-column sections */
+  .about-grid,
+  .location-grid,
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Respect the "reduce motion" accessibility setting: hold everything still. */
+@media (prefers-reduced-motion: reduce) {
+  .blossom,
+  .leaf,
+  .cloud {
+    animation: none;
+  }
+}
+
+/* The cherry-blossom drift (Japan): fall the height of the hero while easing
+   side to side, then loop. */
+@keyframes blossom-fall {
+  0%   { transform: translate(0, -20px) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.9; }
+  100% { transform: translate(40px, 320px) rotate(240deg); opacity: 0; }
+}
+
+/* The maple-leaf drift (Korea): a bit more tumble than the blossoms. */
+@keyframes leaf-fall {
+  0%   { transform: translate(0, -20px) rotate(0deg); opacity: 0; }
+  12%  { opacity: 0.75; }
+  100% { transform: translate(-60px, 360px) rotate(320deg); opacity: 0; }
+}
+
+/* The cloud drift (China): straight across, slow, fading in and out at the edges. */
+@keyframes cloud-drift {
+  0%   { transform: translateX(0);      opacity: 0; }
+  15%  { opacity: 0.55; }
+  85%  { opacity: 0.55; }
+  100% { transform: translateX(150vw);  opacity: 0; }
+}

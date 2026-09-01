@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Browser-tab icon: a black go stone on a small goban, over a blue wave. -->
+  <rect x="0" y="0" width="32" height="32" rx="4" fill="#d8a441"/>
+  <path d="M0 22 A10 10 0 0 1 20 22 A10 10 0 0 1 32 22 L32 32 L0 32 Z" fill="#16324f"/>
+  <path d="M8 3v14M16 3v14M24 3v14M3 8h26M3 16h20" stroke="#9c6b1f" stroke-width="1"/>
+  <circle cx="16" cy="13" r="5" fill="#1b1b1a"/>
+</svg>

@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Title and description carry both "Baduk" and "Go": the club goes by
+       "Baduk", but most people search for "Go". -->
+  <title>Duluth Baduk Club — the ancient game of Go (Baduk) in Duluth, Minnesota</title>
+  <meta name="description" content="The Duluth Baduk Club plays Go — also known as baduk (바둑) or weiqi (围棋) — on the first and third Wednesday of every month at The Loch Cafe and Games in Duluth, Minnesota. Beginners welcome.">
+
+  <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+
+  <!--
+    Fonts. Google Fonts is the only outside thing this page loads.
+      - "Yuji Syuku"      : a brush-drawn Japanese display face, used for big headings
+      - "Shippori Mincho" : a woodblock-flavoured serif, used for body text
+    If the fonts fail to load (e.g. offline), the page falls back to Georgia and
+    still looks fine.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700&family=Yuji+Syuku&display=swap">
+
+  <!-- One stylesheet for the whole page. No inline styles anywhere. -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<!--
+  The look shifts down the page through Go's three homes — Japan (hero, proverb,
+  About), then Korea (Meetups, Location), then China (New to Go onward) — over a
+  constant goban-wood / sumi-ink base. Each stretch has an eyebrow label.
+  TODO: the "Join our Discord" links still point at "#".
+-->
+
+
+<!-- ==========================================================================
+     HEADER  —  the red seal + club name on the left, navigation on the right.
+     The "Menu" button only appears on narrow screens (see styles.css / script.js).
+     ========================================================================== -->
+<header class="site-header">
+  <div class="container header-inner">
+
+    <a class="brand" href="#top">
+      <!-- A little red "seal stamp" with the kanji for Go (囲碁) inside it. -->
+      <span class="brand-seal" aria-hidden="true">囲碁</span>
+      <span class="brand-name">Duluth Baduk Club</span>
+    </a>
+
+    <nav class="site-nav" aria-label="Main">
+      <button id="nav-toggle" class="nav-toggle" aria-expanded="false" aria-controls="nav-menu">Menu</button>
+      <ul id="nav-menu" class="nav-menu">
+        <li><a href="#about">About</a></li>
+        <li><a href="#meetups">Meetups</a></li>
+        <li><a href="#location">Location</a></li>
+        <li><a href="#new-to-go">New to Go?</a></li>
+        <!-- TODO: real Discord invite URL -->
+        <li><a href="#" class="nav-discord">Join our Discord</a></li>
+      </ul>
+    </nav>
+
+  </div>
+</header>
+
+
+<main>
+
+  <!-- ======================================================================
+       ZONE 1 — JAPAN (囲碁 igo)
+       ====================================================================== -->
+
+  <!-- ========================================================================
+       HERO  —  the big first screen. Behind the text sits a hand-drawn
+       "Great Wave" standing in for Lake Superior: a red woodblock sun, layered
+       blue waves with white foam, a distant North Shore ridge, drifting cherry
+       blossoms, and mist along the bottom. All of it is inline SVG + CSS, so
+       there are no image files to manage.
+       ======================================================================== -->
+  <section class="hero" id="top">
+
+    <!-- ---- decorative background, marked hidden from screen readers ---- -->
+    <div class="hero-art" aria-hidden="true">
+
+      <!-- The red woodblock sun. Just a circle; positioned in CSS. -->
+      <div class="sun"></div>
+
+      <!-- A few cherry blossoms drifting down. Each one is the same small flower. -->
+      <svg class="blossom blossom-1" viewBox="0 0 24 24"><use href="#blossom"></use></svg>
+      <svg class="blossom blossom-2" viewBox="0 0 24 24"><use href="#blossom"></use></svg>
+      <svg class="blossom blossom-3" viewBox="0 0 24 24"><use href="#blossom"></use></svg>
+
+      <!-- The wave illustration, anchored to the bottom of the hero.
+           preserveAspectRatio="none" lets the wave shapes stretch to any screen
+           width — that distortion is invisible on the wave silhouettes, but it
+           would squash circles into ovals, so the foam is done separately below. -->
+      <svg class="wave-scene" viewBox="0 0 1200 320" preserveAspectRatio="none" role="img" aria-label="A stylised Great Wave over Lake Superior">
+        <!-- distant ridge line = the far shore across the lake -->
+        <path class="wave-ridge" d="M0,170 C 220,120 380,150 560,140 C 780,128 980,150 1200,120 L1200,320 L0,320 Z"/>
+        <!-- back wave layer (palest) -->
+        <path class="wave-back" d="M0,210 C 160,150 300,150 460,200 C 640,255 820,255 1000,205 C 1090,180 1150,180 1200,200 L1200,320 L0,320 Z"/>
+        <!-- middle wave layer -->
+        <path class="wave-mid" d="M0,250 C 140,200 280,205 440,245 C 620,290 800,285 980,245 C 1080,222 1150,225 1200,240 L1200,320 L0,320 Z"/>
+        <!-- front wave layer (deepest blue), with a curl breaking on the left -->
+        <path class="wave-front" d="M0,285 C 90,255 150,250 210,270 C 250,283 250,255 300,250 C 360,244 380,285 470,295 C 620,312 820,305 1000,285 C 1090,275 1150,278 1200,288 L1200,320 L0,320 Z"/>
+      </svg>
+
+      <!-- Foam flecks on the wave crest — plain round CSS dots, kept out of the
+           stretched SVG above so they stay perfectly circular at any width. -->
+      <span class="foam foam-1"></span>
+      <span class="foam foam-2"></span>
+      <span class="foam foam-3"></span>
+      <span class="foam foam-4"></span>
+      <span class="foam foam-5"></span>
+      <span class="foam foam-6"></span>
+      <span class="foam foam-7"></span>
+      <span class="foam foam-8"></span>
+
+      <!-- Soft white mist sitting on top of the water. Pure CSS gradient. -->
+      <div class="mist"></div>
+    </div>
+
+    <!-- ---- the actual hero content ---- -->
+    <div class="container hero-inner">
+      <p class="eyebrow">囲碁 · Baduk · also known as Go</p>
+      <h1 class="hero-title">Duluth Baduk Club</h1>
+      <p class="lede">
+        The ancient game of Go — <em>baduk</em> in Korea, <em>weiqi</em> in China —
+        played the first and third Wednesday of every month on the shore of Lake
+        Superior. Bring a friend; we'll bring the boards.
+      </p>
+      <div class="button-row">
+        <!-- TODO: real Discord invite URL -->
+        <a class="button button-primary" href="#">Join our Discord</a>
+        <a class="button button-outline" href="#new-to-go">New to Go? Start here</a>
+      </div>
+    </div>
+
+    <!-- a little wave-scallop trim along the very bottom edge -->
+    <div class="scallop-trim" aria-hidden="true"></div>
+  </section>
+
+
+  <!-- ========================================================================
+       GO PROVERB OF THE DAY  —  a sumi-ink band. script.js picks one proverb
+       per calendar day and fills in the <blockquote>. The "another one" button
+       steps through the rest of the list. If JavaScript is off, the fallback
+       proverb written in the HTML is what shows.
+       ======================================================================== -->
+  <section class="proverb-band" aria-label="Go proverb of the day">
+    <div class="container proverb-inner">
+      <p class="proverb-label">Go proverb of the day</p>
+      <blockquote id="proverb" class="proverb-text">Lose your first fifty games as quickly as possible.</blockquote>
+      <button id="proverb-next" class="proverb-next" type="button">Another one &rarr;</button>
+    </div>
+  </section>
+
+
+  <!-- ========================================================================
+       ABOUT  —  still in the Japan stretch of the scroll (its eyebrow is the
+       Japan marker, matching the Korea / China ones further down). What the
+       club is, in a friendly voice, plus a "quick facts" card.
+       ======================================================================== -->
+  <section class="section zone-japan" id="about">
+    <div class="container">
+      <p class="eyebrow">囲碁 · igo · Japan</p>
+      <h2>A friendly club for an ancient game</h2>
+      <div class="about-grid">
+
+        <div class="about-text">
+          <p>
+            Go (also known as baduk, or weiqi) is one of the oldest board games
+            still played today. The game is simple to learn, but deep enough to spend a lifetime
+            on. It's also just a good excuse to sit across a table from someone
+            for an evening.
+          </p>
+          <p>
+            "Go" is the Japanese name. In Korea it's <em>baduk</em> (바둑); in
+            China, where the game began some four thousand years ago, it's
+            <em>weiqi</em> (围棋). Same stones, same board, same quiet
+            concentration. 
+          </p>
+          <p>
+            The Duluth Baduk Club is casual and welcoming. Everyone is welcome, from "I've never placed a stone" to dan-level players. If you're
+            new, someone will teach you and play you on a handicap, beginners are happily welcome. Come every time or once a season; both
+            are completely normal.
+          </p>
+        </div>
+
+        <!-- Quick facts. A plain <dl> — each row is a term (<dt>) and its detail (<dd>). -->
+        <dl class="quick-facts">
+          <div>
+            <dt>When</dt>
+            <dd>1st &amp; 3rd Wednesdays, 6:30&nbsp;PM</dd>
+          </div>
+          <div>
+            <dt>Where</dt>
+            <dd>The Loch Cafe and Games<br><span class="muted">318 N 18th Ave E, Duluth</span></dd>
+          </div>
+          <div>
+            <dt>Cost</dt>
+            <dd>Free — just buy a coffee or a snack</dd>
+          </div>
+          <div>
+            <dt>Bring</dt>
+            <dd>Nothing — boards, stones &amp; clocks provided</dd>
+          </div>
+        </dl>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ======================================================================
+       ZONE 2 — KOREA (바둑 baduk)
+       Carried by the eyebrow label and a couple of maple leaves drifting
+       through (Korea is famous for its autumn). No divider ribbon.
+       ====================================================================== -->
+
+  <!-- ========================================================================
+       MEETUPS  —  the schedule, the next date (filled in by script.js), and
+       what an evening looks like.
+       ======================================================================== -->
+  <section class="section section-wood zone-korea" id="meetups">
+
+    <div class="zone-art" aria-hidden="true">
+      <!-- Two maple leaves drifting, same idea as the hero's cherry blossoms. -->
+      <svg class="leaf leaf-1" viewBox="0 0 100 100"><use href="#maple"></use></svg>
+      <svg class="leaf leaf-2" viewBox="0 0 100 100"><use href="#maple"></use></svg>
+    </div>
+
+    <div class="container">
+      <p class="eyebrow">바둑 · baduk · Korea</p>
+      <h2>When we meet</h2>
+
+      <p class="section-intro">
+        First and third Wednesday of every month, 6:30&nbsp;PM until the cafe
+        closes, at The Loch. Just walk in — there's no sign-up.
+      </p>
+
+      <!-- script.js works out the next 1st-or-3rd Wednesday and drops it in here.
+           The text below is the fallback if JavaScript doesn't run. -->
+      <p class="next-meeting">
+        Next meetup: <strong id="next-meeting">the next first or third Wednesday</strong>
+      </p>
+
+      <h3>What a night looks like</h3>
+      <ul class="stone-list">
+        <li>Show up, grab a board, get paired with someone near your strength.</li>
+        <li>Usually two or three games over the evening, with time to watch and talk between.</li>
+        <li>New players start with a short teaching game on a small board.</li>
+        <li>The cafe has food, coffee, and a wall of other games if you need a break.</li>
+      </ul>
+    </div>
+  </section>
+
+
+  <!-- ========================================================================
+       LOCATION  —  address as plain text, a "View on Map" button, and an
+       embedded Google map. The iframe just queries the address text, so there
+       is no API key and nothing to configure.
+       ======================================================================== -->
+  <section class="section zone-korea" id="location">
+    <div class="container">
+      <h2>Find us at The Loch</h2>
+      <div class="location-grid">
+
+        <div class="location-text">
+          <p class="address">
+            <strong>The Loch Cafe and Games</strong><br>
+            318 North 18th Avenue East<br>
+            Duluth, Minnesota 55812
+          </p>
+          <a class="button button-primary"
+             href="https://www.google.com/maps/search/?api=1&query=The+Loch+Cafe+and+Games%2C+318+North+18th+Avenue+East%2C+Duluth%2C+MN+55812"
+             target="_blank" rel="noopener">
+            View on Map
+          </a>
+        </div>
+
+        <div class="map-frame">
+          <iframe
+            title="Map showing The Loch Cafe and Games, Duluth"
+            src="https://www.google.com/maps?q=The+Loch+Cafe+and+Games,+318+North+18th+Avenue+East,+Duluth,+MN+55812&output=embed"
+            width="100%" height="100%" style="border:0" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- DIVIDER: leaving Korea, entering China. A gold cloud-scroll (祥云) band
+       on ink — the auspicious clouds painted on Chinese lacquerware and robes. -->
+  <div class="divider" aria-hidden="true">
+    <svg class="divider-svg" viewBox="0 0 1200 28" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <pattern id="cloudscroll" width="90" height="28" patternUnits="userSpaceOnUse">
+          <rect width="90" height="28" fill="#1b1b1a"/>
+          <path d="M-5 24 q 12 -16 24 0 q 12 -16 24 0 q 12 -16 24 0 q 12 -16 24 0"
+                fill="none" stroke="#c9a227" stroke-width="3" stroke-linecap="round"/>
+          <path d="M-5 30 q 22 -22 44 0 q 22 -22 44 0"
+                fill="none" stroke="#8f2620" stroke-width="2.5" stroke-linecap="round"/>
+        </pattern>
+      </defs>
+      <rect width="1200" height="28" fill="url(#cloudscroll)"/>
+    </svg>
+  </div>
+
+
+  <!-- ======================================================================
+       ZONE 3 — CHINA (围棋 weiqi)
+       ====================================================================== -->
+
+  <!-- ========================================================================
+       NEW TO GO  —  a highlighted box (go-board grid background) with a few
+       trustworthy places to learn the rules.
+       ======================================================================== -->
+  <section class="section section-wood zone-china">
+    <div class="container">
+      <p class="eyebrow">围棋 · wéiqí · China</p>
+      <div class="new-to-go" id="new-to-go">
+        <h2>New to Go? Start here.</h2>
+        <p>
+          You can learn enough to play a real game in about ten minutes. You don't
+          have to study anything first — but if you like to read ahead, these are
+          good:
+        </p>
+        <ul class="link-list">
+          <li>
+            <a href="https://playgo.to/iwtg/en/" target="_blank" rel="noopener">The Interactive Way to Go</a>
+            — click-through lessons, no account needed
+          </li>
+          <li>
+            <a href="https://online-go.com/learn-to-play-go" target="_blank" rel="noopener">Learn to Play Go (OGS)</a>
+            — a short interactive tutorial
+          </li>
+          <li>
+            <a href="https://www.usgo.org/learn-play" target="_blank" rel="noopener">Learn to Play (American Go Association)</a>
+            — rules, videos, and a beginner's guide
+          </li>
+          <li>
+            <a href="https://senseis.xmp.net/?RulesOfGoIntroductory" target="_blank" rel="noopener">Sensei's Library: the rules of Go</a>
+            — the deep end, when you're curious
+          </li>
+        </ul>
+        <p class="muted">Or skip all of it and just show up — teaching people is half the fun.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================================
+       COMING LATER  —  honest "not built yet" section. Layered ink-wash
+       mountains sit behind it (the echo of the hero's layered waves), with a
+       pale moon and slow-drifting clouds.
+       ======================================================================== -->
+  <section class="section zone-china" id="whats-next">
+
+    <div class="zone-art" aria-hidden="true">
+      <div class="moon"></div>
+      <svg class="cloud cloud-1" viewBox="0 0 48 24"><use href="#cloud"></use></svg>
+      <svg class="cloud cloud-2" viewBox="0 0 48 24"><use href="#cloud"></use></svg>
+      <!-- Three layers of mountains, palest and furthest at the back. -->
+      <svg class="mountains" viewBox="0 0 1200 300" preserveAspectRatio="none">
+        <path class="mtn-far"  d="M0,180 L200,90 L360,170 L520,80 L700,180 L900,110 L1100,190 L1200,140 L1200,300 L0,300 Z"/>
+        <path class="mtn-mid"  d="M0,230 L160,150 L340,230 L520,150 L720,240 L950,160 L1200,240 L1200,300 L0,300 Z"/>
+        <path class="mtn-near" d="M0,280 L240,210 L480,285 L760,215 L1040,285 L1200,250 L1200,300 L0,300 Z"/>
+      </svg>
+    </div>
+
+    <div class="container">
+      <p class="eyebrow">Still on the board</p>
+      <h2>Coming later</h2>
+      <p class="section-intro">Planned once the club has gathered feedback on this page. None of it works yet.</p>
+      <div class="card-grid">
+        <article class="card">
+          <h3>Club ratings</h3>
+          <p>An honest, handicap-aware rating for every member that improves as you play at meetups.</p>
+        </article>
+        <article class="card">
+          <h3>Upload your games</h3>
+          <p>Drop in an SGF game record, step through the moves on the board, and keep a personal archive.</p>
+        </article>
+        <article class="card">
+          <h3>Gallery</h3>
+          <p>Photos from club nights, tournaments, and the occasional very good-looking board position.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================================
+       COME PLAY  —  closing call to action, with a big weiqi seal.
+       ======================================================================== -->
+  <section class="section section-wood zone-china" id="contact">
+    <div class="container contact-inner">
+      <span class="big-seal" aria-hidden="true">围棋</span>
+      <h2>Pull up a chair</h2>
+      <p>
+        Legend credits the game to the emperor Yao, four thousand years ago, as a
+        lesson for his restless son. It reached Duluth more recently. The club
+        runs on people showing up — come to a meetup, bring someone who's never
+        played, and say hello.
+      </p>
+      <!-- TODO: real Discord invite URL -->
+      <a class="button button-primary" href="#">Join our Discord</a>
+    </div>
+  </section>
+
+</main>
+
+
+<!-- ==========================================================================
+     FOOTER
+     ========================================================================== -->
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <p class="footer-brand"><span class="brand-seal" aria-hidden="true">囲碁</span> Duluth Baduk Club</p>
+    <ul class="footer-nav">
+      <li><a href="#about">About</a></li>
+      <li><a href="#meetups">Meetups</a></li>
+      <li><a href="#location">Location</a></li>
+      <li><a href="#new-to-go">New to Go?</a></li>
+      <li><a href="#contact">Come play</a></li>
+    </ul>
+    <p class="footer-fineprint">
+      Go &nbsp;·&nbsp; 囲碁 igo &nbsp;·&nbsp; 바둑 baduk &nbsp;·&nbsp; 围棋 wéiqí &nbsp;—&nbsp; Duluth, Minnesota · draft site, front page only
+    </p>
+  </div>
+</footer>
+
+
+<!-- ==========================================================================
+     SVG DEFINITIONS  —  shapes defined once here and reused above with <use>.
+     This <svg> renders nothing itself (width/height 0); it's just a library.
+     ========================================================================== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- A simple five-petal cherry blossom (Japan zone).
+         The petals have no fill set here — they inherit the pink from
+         ".blossom { fill: ... }" in styles.css. The centre dot is red. -->
+    <g id="blossom">
+      <ellipse cx="12" cy="5"  rx="3.4" ry="5"/>
+      <ellipse cx="12" cy="19" rx="3.4" ry="5"/>
+      <ellipse cx="5"  cy="12" rx="5"  ry="3.4"/>
+      <ellipse cx="19" cy="12" rx="5"  ry="3.4"/>
+      <ellipse cx="7"  cy="7"  rx="3.4" ry="5" transform="rotate(-45 7 7)"/>
+      <ellipse cx="17" cy="17" rx="3.4" ry="5" transform="rotate(-45 17 17)"/>
+      <circle cx="12" cy="12" r="2" fill="#b5322b"/>
+    </g>
+
+    <!-- A maple leaf (Korea zone) in a 100x100 box. Five lobes clustered upward
+         with the deep narrow slits beside the top lobe that make a maple read
+         as a maple, plus a short stem. Fill comes from ".leaf { fill: ... }". -->
+    <g id="maple">
+      <path d="M47 97 L47 74 L40 70 L18 75 L33 60 L10 51 L31 46 L26 20 L39 27 L44 20 L50 4 L56 20 L61 27 L74 20 L69 46 L90 51 L67 60 L82 75 L60 70 L53 74 L53 97 Z"/>
+    </g>
+
+    <!-- A single puffy cloud (China zone). Fill comes from ".cloud { fill: ... }". -->
+    <g id="cloud">
+      <path d="M6 20 q0-7 7-7 q2-6 9-4 q5-2 7 4 q7 0 7 7 q0 4-6 4 h-25 q-6 0-6-5z"/>
+    </g>
+  </defs>
+</svg>
+
+<!-- The only script on the site: mobile menu, proverb of the day, next meeting date. -->
+<script src="script.js"></script>
+
+</body>
+</html>
