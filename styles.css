@@ -757,6 +757,24 @@ iframe {
   margin-bottom: 0;
 }
 
+/* Small "who built this" line — same idea as the credit on the Great Lakes
+   Playscape site. */
+.footer-credit {
+  margin-top: var(--space-sm);
+  color: #b6ad98;
+  font-size: 0.8rem;
+}
+
+.footer-credit a {
+  color: var(--blossom);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.footer-credit a:hover {
+  color: var(--paper);
+}
+
 
 /* 15. DECORATIVE BITS (reused in a few places) --------------------------- */
 
