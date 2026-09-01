@@ -346,13 +346,15 @@ iframe {
   pointer-events: none;
 }
 
-/* The red woodblock sun, up and to the right. */
+/* The red woodblock sun. Sits low on the right, over the water and clear of
+   the headline — it's behind the wave in the source order, so the wave clips
+   its base and it reads as a sun setting into the lake. */
 .sun {
   position: absolute;
-  top: 12%;
-  right: 12%;
-  width: 130px;
-  height: 130px;
+  right: 8%;
+  bottom: 150px;
+  width: 124px;
+  height: 124px;
   border-radius: 50%;
   background: var(--seal);
   opacity: 0.9;
@@ -852,13 +854,12 @@ iframe {
   .hero-title { font-size: 2.4rem; }
   .lede { font-size: 1.15rem; }
 
-  /* On a phone the sun would sit behind the title; shrink it and tuck it
-     up into the top corner so the heading stays readable. */
+  /* Smaller sun on phones, still low over the water. */
   .sun {
-    width: 78px;
-    height: 78px;
-    top: 3%;
-    right: 5%;
+    width: 96px;
+    height: 96px;
+    bottom: 128px;
+    right: 6%;
   }
 
   .big-seal { font-size: 1.8rem; }
