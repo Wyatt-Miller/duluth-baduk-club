@@ -16,8 +16,7 @@ or run any static server (e.g. `python -m http.server`) from this folder.
 
 ## Notes
 
-- The **"Join our Discord"** links are placeholders (`href="#"`) until the real
-  invite URL is dropped in.
+
 - The **"Coming later"** section lists features that aren't built yet
   (ratings, game upload, gallery).
 - The look shifts down the page through Go's three homes — Japan, then Korea,
